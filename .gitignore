@@ -8,7 +8,7 @@ build/
 ### STS ###
 .apt_generated
 .classpath
-.factorypath
+.factorypathgit rm --cached path/to/file
 .project
 .settings
 .springBeans
