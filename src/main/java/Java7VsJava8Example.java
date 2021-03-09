@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 
 public class Java7VsJava8Example {
+    //cosumer example
+
     static Consumer<Person> c1 = (p) -> System.out.println(p);
 
     static Consumer<Person> c2 = (p) -> System.out.println(p.getName().toUpperCase());
@@ -25,6 +27,21 @@ public class Java7VsJava8Example {
             if(p.getGender().equals("Male") && p.getHeight() >=140) {
                 c2.andThen(c3).accept(p);
             }
+        });
+    }
+
+    //biconsumer example
+
+    static void printPersonDetails() {
+        BiConsumer<String, List<String>> personConsumer = (name,hobbies) -> System.out.println(name +" "+hobbies);
+        BiConsumer<String, Double> salaryConsumer = (name,salary) -> System.out.println(name +" "+salary);
+
+        List<Person> personList = PersonRepository.getAllPersons();
+
+        //personList.forEach(per -> personConsumer.accept(per.getName(), per.getHobbies()));
+        personList.forEach(per -> {
+            personConsumer.accept(per.getName(), per.getHobbies());
+            salaryConsumer.accept(per.getName(),per.getSalary());
         });
     }
 
@@ -120,7 +137,7 @@ public class Java7VsJava8Example {
             printWithCondition();
 
         }
-        //biconsumer example
+        //biconsumer example 1
         {
             /* BiConsumer<Integer, Integer> con1 = (a,b) -> System.out.println("Add :"+(a+b));
 		con1.accept(10, 20);
@@ -143,6 +160,10 @@ public class Java7VsJava8Example {
             //mulConsumer.accept(10, 20);
             addConsumer.andThen(subConsumer).andThen(mulConsumer).accept(10, 20);
 
+        }
+        //biconsumer example 2
+        {
+            printPersonDetails();
         }
     }
 
