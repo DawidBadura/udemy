@@ -52,6 +52,8 @@ public class Java7VsJava8Example {
     static Predicate<Person> p2 = per -> per.getGender().equals("Male");
 
 
+
+
     public static void main(String[] args) {
         //Runable lambda example
         {
