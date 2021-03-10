@@ -2,9 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 
@@ -51,6 +49,22 @@ public class Java7VsJava8Example {
 
     static Predicate<Person> p2 = per -> per.getGender().equals("Male");
 
+    static BiConsumer<String, List<String>> hobbiesConsumer = (name, hobbies) -> System.out.println(name +" "+hobbies);
+
+
+    //bipredicate example
+    static BiPredicate<Integer, String> p3 = (height, gender)-> height>=140&&gender.equals("Male");
+
+    static Consumer<Person> personConsumer = per -> {
+        //if(p1.and(p2).test(per)) {
+        if(p3.test(per.getHeight(), per.getGender())) {
+            hobbiesConsumer.accept(per.getName(), per.getHobbies());
+        }
+    };
+
+    //function example
+    static Function<String, String> f1 = name -> name.toUpperCase();
+    static Function<String, String> f2 = name -> name.toUpperCase().concat(" features");
 
 
 
@@ -207,6 +221,19 @@ public class Java7VsJava8Example {
                     System.out.println(per);
                 }
             });
+
+        }
+        //predicate example 3, 4
+        {
+            List<Person> personList = PersonRepository.getAllPersons();
+            personList.forEach(personConsumer);
+        }
+        //function example
+        {
+            //System.out.println("Result 1:"+f1.apply("java"));
+            //System.out.println("Result 2:"+f2.apply("java"));
+            System.out.println("And Then Result :"+ f1.andThen(f2).apply("java"));
+            System.out.println("Compose Result :"+f1.compose(f2).apply("java"));
         }
     }
 
