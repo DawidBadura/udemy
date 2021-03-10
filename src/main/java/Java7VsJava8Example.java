@@ -46,6 +46,11 @@ public class Java7VsJava8Example {
         });
     }
 
+    //predicate example
+    static Predicate<Person> p1 = per -> per.getHeight() >= 140;
+
+    static Predicate<Person> p2 = per -> per.getGender().equals("Male");
+
 
     public static void main(String[] args) {
         //Runable lambda example
@@ -188,6 +193,18 @@ public class Java7VsJava8Example {
 
             boolean result3 = lessThan.or(greaterThan).negate().test(150);
             System.out.println("Result 3:" + result3);
+        }
+        //predicate example 2
+        {
+            personList.stream()
+                    .filter(p1)
+                    .collect(Collectors.toList());
+
+            personList.forEach(per -> {
+                if(p1.and(p2).test(per)) {
+                    System.out.println(per);
+                }
+            });
         }
     }
 
