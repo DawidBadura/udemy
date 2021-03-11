@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
@@ -63,9 +60,19 @@ public class Java7VsJava8Example {
     };
 
     //function example
-    static Function<String, String> f1 = name -> name.toUpperCase();
-    static Function<String, String> f2 = name -> name.toUpperCase().concat(" features");
+    static Function<String, Integer> f1 = name -> name.length();
+    //from first example
+    //static Function<String, String> f1 = name -> name.toUpperCase();
+    //static Function<String, String> f2 = name -> name.toUpperCase().concat(" features");
 
+    static Function<List<Person>, Map<String,Double>> f2 = personList -> {
+        Map<String,Double> map = new HashMap<String,Double>();
+        personList.forEach(per -> {
+            if(p1.and(p2).test(per))
+                map.put(per.getName(), per.getSalary());
+        });
+        return map;
+    };
 
 
     public static void main(String[] args) {
@@ -232,9 +239,14 @@ public class Java7VsJava8Example {
         {
             //System.out.println("Result 1:"+f1.apply("java"));
             //System.out.println("Result 2:"+f2.apply("java"));
-            System.out.println("And Then Result :"+ f1.andThen(f2).apply("java"));
-            System.out.println("Compose Result :"+f1.compose(f2).apply("java"));
+            //System.out.println("And Then Result :"+ f1.andThen(f2).apply("java"));
+            //System.out.println("Compose Result :"+f1.compose(f2).apply("java"));
         }
+        //function example 2
+        //System.out.println(f1.apply("java features"));
+        List<Person> personList = PersonRepository.getAllPersons();
+        Map<String,Double> map = f2.apply(personList);
+        System.out.println("Result :"+map);
     }
 
 }
