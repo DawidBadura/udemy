@@ -72,7 +72,12 @@ public class Java7VsJava8Example {
                 map.put(per.getName(), per.getSalary());
         });
         return map;
+
     };
+    //unarybinary example
+    static UnaryOperator<String> uo1 = name -> name.toUpperCase();
+    static UnaryOperator<Integer> uo2 = a -> a+10;
+    static Comparator<Integer> comp = (a,b) -> a.compareTo(b);
 
 
     public static void main(String[] args) {
@@ -247,6 +252,21 @@ public class Java7VsJava8Example {
         List<Person> personList = PersonRepository.getAllPersons();
         Map<String,Double> map = f2.apply(personList);
         System.out.println("Result :"+map);
+    }
+    //ub example
+    {
+        //System.out.println("Result 1:"+uo1.apply("java8"));
+        //System.out.println("Result 2:"+uo2.apply(20));
+
+        BinaryOperator<Integer> bo1 = BinaryOperator
+                .maxBy((a, b) -> (a > b) ? 1 : (a == b) ? 0 : -1);
+        System.out.println("Binary Operator MaxBy Result 1:"+bo1.apply(102, 15));
+
+        BinaryOperator<Integer> bo2 = BinaryOperator.maxBy(comp);
+        System.out.println("Binary Operator MaxBy Result 2:" + bo2.apply(102, 15));
+
+        BinaryOperator<Integer> bo3 = BinaryOperator.minBy(comp);
+        System.out.println("Binary Operator MinBy Result 3:" + bo3.apply(102, 15));
     }
 
 }
