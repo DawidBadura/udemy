@@ -20,7 +20,7 @@ public class Java7VsJava8Example {
 
     static void printWithCondition() {
         personList.forEach(p -> { // iterate student
-            if(p.getGender().equals("Male") && p.getHeight() >=140) {
+            if (p.getGender().equals("Male") && p.getHeight() >= 140) {
                 c2.andThen(c3).accept(p);
             }
         });
@@ -29,15 +29,15 @@ public class Java7VsJava8Example {
     //biconsumer example
 
     static void printPersonDetails() {
-        BiConsumer<String, List<String>> personConsumer = (name,hobbies) -> System.out.println(name +" "+hobbies);
-        BiConsumer<String, Double> salaryConsumer = (name,salary) -> System.out.println(name +" "+salary);
+        BiConsumer<String, List<String>> personConsumer = (name, hobbies) -> System.out.println(name + " " + hobbies);
+        BiConsumer<String, Double> salaryConsumer = (name, salary) -> System.out.println(name + " " + salary);
 
         List<Person> personList = PersonRepository.getAllPersons();
 
         //personList.forEach(per -> personConsumer.accept(per.getName(), per.getHobbies()));
         personList.forEach(per -> {
             personConsumer.accept(per.getName(), per.getHobbies());
-            salaryConsumer.accept(per.getName(),per.getSalary());
+            salaryConsumer.accept(per.getName(), per.getSalary());
         });
     }
 
@@ -46,15 +46,15 @@ public class Java7VsJava8Example {
 
     static Predicate<Person> p2 = per -> per.getGender().equals("Male");
 
-    static BiConsumer<String, List<String>> hobbiesConsumer = (name, hobbies) -> System.out.println(name +" "+hobbies);
+    static BiConsumer<String, List<String>> hobbiesConsumer = (name, hobbies) -> System.out.println(name + " " + hobbies);
 
 
     //bipredicate example
-    static BiPredicate<Integer, String> p3 = (height, gender)-> height>=140&&gender.equals("Male");
+    static BiPredicate<Integer, String> p3 = (height, gender) -> height >= 140 && gender.equals("Male");
 
     static Consumer<Person> personConsumer = per -> {
         //if(p1.and(p2).test(per)) {
-        if(p3.test(per.getHeight(), per.getGender())) {
+        if (p3.test(per.getHeight(), per.getGender())) {
             hobbiesConsumer.accept(per.getName(), per.getHobbies());
         }
     };
@@ -65,19 +65,29 @@ public class Java7VsJava8Example {
     //static Function<String, String> f1 = name -> name.toUpperCase();
     //static Function<String, String> f2 = name -> name.toUpperCase().concat(" features");
 
-    static Function<List<Person>, Map<String,Double>> f2 = personList -> {
-        Map<String,Double> map = new HashMap<String,Double>();
+    static Function<List<Person>, Map<String, Double>> f2 = personList -> {
+        Map<String, Double> map = new HashMap<String, Double>();
         personList.forEach(per -> {
-            if(p1.and(p2).test(per))
+            if (p1.and(p2).test(per))
                 map.put(per.getName(), per.getSalary());
         });
         return map;
 
     };
+    //bifunction example
+    static BiFunction<String, String, String> bf1 = (a, b) -> (a + " " + b);
+    static BiFunction<List<Person>, Predicate<Person>, Map<String, Double>> bf2 = (listOfPersons, predicate) -> {
+        Map<String, Double> map = new HashMap<String, Double>();
+        listOfPersons.forEach(per -> {
+            if (p1.and(p2).test(per))
+                map.put(per.getName(), per.getSalary());
+        });
+        return map;
+    };
     //unarybinary example
     static UnaryOperator<String> uo1 = name -> name.toUpperCase();
-    static UnaryOperator<Integer> uo2 = a -> a+10;
-    static Comparator<Integer> comp = (a,b) -> a.compareTo(b);
+    static UnaryOperator<Integer> uo2 = a -> a + 10;
+    static Comparator<Integer> comp = (a, b) -> a.compareTo(b);
 
 
     public static void main(String[] args) {
@@ -186,9 +196,9 @@ public class Java7VsJava8Example {
 
 		con2.accept(list1, list2);*/
 
-            BiConsumer<Integer, Integer> addConsumer = (a,b) -> System.out.println("Add :"+(a+b));
-            BiConsumer<Integer, Integer> subConsumer = (a, b) -> System.out.println("Subs :"+(a-b));
-            BiConsumer<Integer, Integer> mulConsumer = (a,b) -> System.out.println("Mul :"+(a*b));
+            BiConsumer<Integer, Integer> addConsumer = (a, b) -> System.out.println("Add :" + (a + b));
+            BiConsumer<Integer, Integer> subConsumer = (a, b) -> System.out.println("Subs :" + (a - b));
+            BiConsumer<Integer, Integer> mulConsumer = (a, b) -> System.out.println("Mul :" + (a * b));
             //addConsumer.accept(10, 20);
             //subConsumer.accept(10, 20);
             //mulConsumer.accept(10, 20);
@@ -229,7 +239,7 @@ public class Java7VsJava8Example {
                     .collect(Collectors.toList());
 
             personList.forEach(per -> {
-                if(p1.and(p2).test(per)) {
+                if (p1.and(p2).test(per)) {
                     System.out.println(per);
                 }
             });
@@ -242,31 +252,39 @@ public class Java7VsJava8Example {
         }
         //function example
         {
-            //System.out.println("Result 1:"+f1.apply("java"));
+            System.out.println("Result 1:" + f1.apply("java"));
             //System.out.println("Result 2:"+f2.apply("java"));
             //System.out.println("And Then Result :"+ f1.andThen(f2).apply("java"));
             //System.out.println("Compose Result :"+f1.compose(f2).apply("java"));
         }
         //function example 2
-        //System.out.println(f1.apply("java features"));
-        List<Person> personList = PersonRepository.getAllPersons();
-        Map<String,Double> map = f2.apply(personList);
-        System.out.println("Result :"+map);
+        {//System.out.println(f1.apply("java features"));
+            List<Person> personList = PersonRepository.getAllPersons();
+            Map<String, Double> map = f2.apply(personList);
+            System.out.println("Result :" + map);
+        }
+        //bi function example
+        {
+            //System.out.println("Result :"+bf1.apply("java", "features"));
+            List<Person> personList = PersonRepository.getAllPersons();
+            Map<String, Double> map = bf2.apply(personList, p2);
+            System.out.println("Result :" + map);
+        }
+        //ub example
+        {
+            //System.out.println("Result 1:"+uo1.apply("java8"));
+            //System.out.println("Result 2:"+uo2.apply(20));
+
+            BinaryOperator<Integer> bo1 = BinaryOperator
+                    .maxBy((a, b) -> (a > b) ? 1 : (a == b) ? 0 : -1);
+            System.out.println("Binary Operator MaxBy Result 1:" + bo1.apply(102, 15));
+
+            BinaryOperator<Integer> bo2 = BinaryOperator.maxBy(comp);
+            System.out.println("Binary Operator MaxBy Result 2:" + bo2.apply(102, 15));
+
+            BinaryOperator<Integer> bo3 = BinaryOperator.minBy(comp);
+            System.out.println("Binary Operator MinBy Result 3:" + bo3.apply(102, 15));
+        }
+
     }
-    //ub example
-    {
-        //System.out.println("Result 1:"+uo1.apply("java8"));
-        //System.out.println("Result 2:"+uo2.apply(20));
-
-        BinaryOperator<Integer> bo1 = BinaryOperator
-                .maxBy((a, b) -> (a > b) ? 1 : (a == b) ? 0 : -1);
-        System.out.println("Binary Operator MaxBy Result 1:"+bo1.apply(102, 15));
-
-        BinaryOperator<Integer> bo2 = BinaryOperator.maxBy(comp);
-        System.out.println("Binary Operator MaxBy Result 2:" + bo2.apply(102, 15));
-
-        BinaryOperator<Integer> bo3 = BinaryOperator.minBy(comp);
-        System.out.println("Binary Operator MinBy Result 3:" + bo3.apply(102, 15));
-    }
-
 }
