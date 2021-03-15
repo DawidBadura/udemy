@@ -89,6 +89,10 @@ public class Java7VsJava8Example {
     static UnaryOperator<Integer> uo2 = a -> a + 10;
     static Comparator<Integer> comp = (a, b) -> a.compareTo(b);
 
+    //supplier example
+    static Supplier<Person> s1 = () -> PersonRepository.getPerson();
+    static Supplier<List<Person>> s2 = () -> PersonRepository.getAllPersons();
+
 
     public static void main(String[] args) {
         //Runable lambda example
@@ -284,6 +288,11 @@ public class Java7VsJava8Example {
 
             BinaryOperator<Integer> bo3 = BinaryOperator.minBy(comp);
             System.out.println("Binary Operator MinBy Result 3:" + bo3.apply(102, 15));
+        }
+        //supplier example
+        {
+            //System.out.println("Result :"+s1.get());
+            System.out.println("Result :"+s2.get());
         }
 
     }
