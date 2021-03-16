@@ -93,6 +93,14 @@ public class Java7VsJava8Example {
     static Supplier<Person> s1 = () -> PersonRepository.getPerson();
     static Supplier<List<Person>> s2 = () -> PersonRepository.getAllPersons();
 
+    //methodreference 1
+    static Function<String, String> fu1 = name -> name.toUpperCase();
+    static Function<String, String> fu2 = String :: toUpperCase;
+
+    static Predicate<Person> pr1 = per -> per.getHeight() >=140;
+    static Predicate<Person> pr2 = Java7VsJava8Example :: heightCheck;
+    static BiPredicate<Person,Integer> pr3 = Java7VsJava8Example :: heightCheckWithParam;
+    static Function<String,String> fu3 = Java7VsJava8Example :: sayMyName ;
 
     public static void main(String[] args) {
         //Runable lambda example
@@ -301,9 +309,29 @@ public class Java7VsJava8Example {
             Comparator<Integer> comp = Java7VsJava8Example::compare;
             System.out.println("Result 2:" + comp.compare(10, 20));
         }
+        //method reference example 1
+        {
+            //System.out.println("Lambda Expression Result :"+fu1.apply("java8"));
+            //System.out.println("Method Reference Result :"+fu2.apply("java8"));
+            System.out.println("Predicate 1 Result :"+pr1.test(PersonRepository.getPerson()));
+            System.out.println("Predicate 2 Result :"+pr2.test(PersonRepository.getPerson()));
+            System.out.println("Predicate 3 Result :"+pr3.test(PersonRepository.getPerson(),145));
+            System.out.println("Function Test :"+fu3.apply("java8"));
+        }
     }
     public static int compare(Integer x,Integer y) {
         return Integer.compare(x, y);
 
+    }
+    static boolean heightCheck(Person per) {
+        return per.getHeight() >= 140;
+    }
+
+    static boolean heightCheckWithParam(Person per, Integer height) {
+        return per.getHeight() >= height;
+    }
+
+    static String sayMyName(String name){
+        return "Hello Mr."+name;
     }
 }
