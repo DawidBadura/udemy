@@ -294,6 +294,16 @@ public class Java7VsJava8Example {
             //System.out.println("Result :"+s1.get());
             System.out.println("Result :"+s2.get());
         }
+        //Method reference example
+        {
+            System.out.println("Result 1 :" + Java7VsJava8Example.compare(10, 20));
+
+            Comparator<Integer> comp = Java7VsJava8Example::compare;
+            System.out.println("Result 2:" + comp.compare(10, 20));
+        }
+    }
+    public static int compare(Integer x,Integer y) {
+        return Integer.compare(x, y);
 
     }
 }
