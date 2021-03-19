@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 public class SimpleStreamExample {
     public static void main(String[] args) {
+        //1
         /*Stream<Integer> s1 = Stream.of(1,2,3,4,5,6);
 		s1.forEach(p-> System.out.println(p));
 		System.out.println("=================");
@@ -22,5 +23,16 @@ public class SimpleStreamExample {
                 .collect(Collectors
                         .toMap(Person :: getName, Person :: getHobbies));
         System.out.println("Person Map :"+personMap);
+
+        //2
+        List<String> personHobbies = PersonRepository
+                .getAllPersons() // List of Persons
+                .stream() // Stream of Persons
+                .map(Person :: getHobbies) // Stream<List<String>>
+                .flatMap(List::stream) // Stream<String>
+                .distinct()
+                .collect(Collectors.toList());// collection to be returned
+
+        System.out.println("Person Hobbies List :"+personHobbies);
     }
 }
