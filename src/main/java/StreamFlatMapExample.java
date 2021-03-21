@@ -9,6 +9,22 @@ public class StreamFlatMapExample {
                 .flatMap(List :: stream)
                 .collect(Collectors.toList());
     }
+    static List<String> distinctHobbies(List<Person> personsList){
+        return personsList.stream()
+                .map(Person :: getHobbies)
+                .flatMap(List :: stream)
+                .sorted()
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    static long countOfHobbies(List<Person> personsList) {
+        return personsList.stream()
+                .map(Person :: getHobbies)
+                .flatMap(List :: stream)
+                .distinct()
+                .count();
+    }
     public static void main(String[] args) {
         List<Integer> oddNumber = Arrays.asList(1,3,5,7);
         List<Integer> evenNumber = Arrays.asList(2,4,6,8);
@@ -19,6 +35,7 @@ public class StreamFlatMapExample {
                 .flatMap(list -> list.stream())
                 .collect(Collectors.toList());
         System.out.println("After Flatten :"+flattenList);
-        System.out.println("Hobbies Result :"+hobbies(PersonRepository.getAllPersons()));
-    }
+        System.out.println("Hobbies Result with Duplicates :"+hobbies(PersonRepository.getAllPersons()));
+        System.out.println("Hobbies Result without Duplicates :"+distinctHobbies(PersonRepository.getAllPersons()));
+        System.out.println("Hobbies Count :"+countOfHobbies(PersonRepository.getAllPersons()));    }
 }
