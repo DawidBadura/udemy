@@ -6,7 +6,7 @@ public class StreamJoiningExample {
     static String joiningExample() {
         String s = PersonRepository.getAllPersons()
                 .stream()
-                .map(Person :: getName)
+                .map(Person:: getName)
                 //.collect(Collectors.joining());
                 //.collect(Collectors.joining("-"));
                 .collect(Collectors.joining("-","[","]"));
