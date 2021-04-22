@@ -1,5 +1,8 @@
 package terminal_operations;
 
+import repo.Person;
+import repo.PersonRepository;
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

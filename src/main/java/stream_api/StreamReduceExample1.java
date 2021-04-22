@@ -1,5 +1,8 @@
 package stream_api;
 
+import repo.Person;
+import repo.PersonRepository;
+
 import java.util.Optional;
 
 public class StreamReduceExample1 {
